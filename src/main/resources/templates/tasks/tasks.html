@@ -1,0 +1,71 @@
+<div class="col-xl-8 col-lg-7">
+
+    <div th:if="${#lists.isEmpty(tasks)}" class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">&nbsp;&nbsp;</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <p>Your Task List is empty.</p>
+        </div>
+    </div>
+
+    <div th:each = "task : ${tasks}" class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+            <!-- Info Button for OPEN Tasks-->
+            <div th:if="${task.status == T(com.example.taskapp.model.Status).OPEN}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      OPEN
+                    </span>
+                <span class="text" th:text="${task.title}"></span>
+            </div>
+
+            <!-- Info Button for CLOSED Tasks-->
+            <div th:if="${task.status == T(com.example.taskapp.model.Status).CLOSED}" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                      CLOSED
+                    </span>
+                <span class="text" th:text="${task.title}"></span>
+            </div>
+
+            <!-- Info Button for REOPENED Tasks-->
+            <div th:if="${task.status == T(com.example.taskapp.model.Status).REOPENED}" class="btn btn-warning btn-icon-split">
+                    <span class="icon text-white-50">
+                      REOPENED
+                    </span>
+                <span class="text" th:text="${task.title}"></span>
+            </div>
+
+            <h6 class="m-0 font-weight-bold text-primary">&nbsp;&nbsp;</h6>
+            <!-- Dropdown -->
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Actions:</div>
+
+                    <div th:if="${task.status == T(com.example.taskapp.model.Status).OPEN}">
+                        <a class="dropdown-item" th:href="@{/task/{id}/{action}(id=${task.id}, action='close')}">CLOSE</a>
+                    </div>
+                    <div th:if="${task.status == T(com.example.taskapp.model.Status).CLOSED}">
+                        <a class="dropdown-item" th:href="@{/task/{id}/{action}(id=${task.id}, action='reopen')}">REOPEN</a>
+                    </div>
+                    <div th:if="${task.status == T(com.example.taskapp.model.Status).REOPENED}">
+                        <a class="dropdown-item" th:href="@{/task/{id}/{action}(id=${task.id}, action='close')}">CLOSE</a>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/task/{id}/edit(id=${task.id})}"><i class="far fa-edit"></i> Edit</a>
+                    <a class="dropdown-item" th:href="@{/task/{id}/delete(id=${task.id})}"><i class="fas fa-trash-alt"></i> Delete</a>
+                </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <p th:text="${task.content}"></p>
+        </div>
+    </div>
+</div>
