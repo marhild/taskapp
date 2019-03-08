@@ -32,7 +32,7 @@ public interface TaskService {
     Task createTask(Task taskDetails);
 
     /**
-     * updates Task from Database with fields values in taskDetails
+     * updates Task from Database with field values in taskDetails
      * @param taskId        Database ID of task
      * @param taskDetails   field values
      * @return              updated Task

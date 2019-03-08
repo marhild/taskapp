@@ -59,7 +59,7 @@ public class TaskController {
             model.addAttribute("tasks", taskService.getTasksByStatus(Status.REOPENED));
         }
 
-        //newTask Form
+        //for newTask Form
         Task newTask = new Task();
         model.addAttribute("newTask", newTask);
 
@@ -83,11 +83,12 @@ public class TaskController {
                                HttpServletRequest request){
         Task task = taskService.findById(taskId);
 
-        if(action.equals("close") && task.getStatus() == Status.OPEN) {taskService.closeTask(taskId);}
+        if (action.equals("close")) {
+            if(task.getStatus() == Status.OPEN) {taskService.closeTask(taskId);}
+            if(task.getStatus() == Status.REOPENED) {taskService.closeTask(taskId);}
+        }
         if(action.equals("reopen") && task.getStatus() == Status.CLOSED) {taskService.reopenTask(taskId);}
-        if(action.equals("close") && task.getStatus() == Status.REOPENED) {taskService.closeTask(taskId);}
 
-        //redirect to previous page
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
     }
